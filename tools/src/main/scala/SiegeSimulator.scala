@@ -2,18 +2,19 @@ import army.Army
 import datatypes.{Fort, MilTechModifier}
 import util.Dice
 
+import scala.annotation.tailrec
 import scala.util.Random
 
-class SiegeSimulator(fort: Fort, army: Army, attackerTech: MilTechModifier, blockadeImpact: Int) {
+class SiegeSimulator(fort: Fort, army: Army, attackerTech: MilTechModifier, blockadeImpact: Int, siegeAbility: Double) {
 
-  private val phaseLength: Int = (30 + (30 * fort.defensiveness) - (30 * army.siegeAbility)).toInt
+  private val phaseLength: Int = (30 + (30 * fort.defensiveness) - (30 * siegeAbility)).toInt
   private val startingBonus: Int = -fort.fortLevel + army.getArtilleryBonus(fort.fortBuildingLevel) + army.general.siege + blockadeImpact
 
   val seed: Long = 9128736712903876L
   private val dice: Dice = new Dice(new Random(seed))
 
   /** helper function for recursive siege */
-  def siege: Int ={
+  def siege: Int = {
     siege(0,0,0)
   }
 
@@ -23,12 +24,12 @@ class SiegeSimulator(fort: Fort, army: Army, attackerTech: MilTechModifier, bloc
     * @param wallsBreached starts at 0, max 3
     * @return elapsed time until surrender
     */
+  @tailrec
   private def siege(phaseCount: Int, siegeStatus: Int, wallsBreached: Int): Int = {
     // check army size > garrison size else siege progress stops
 
-
     // take 1% attrition
-
+    army.applyAttrition(0.01)
 
     // dice roll (1-14)
     val roll = dice.random(1 to 14)

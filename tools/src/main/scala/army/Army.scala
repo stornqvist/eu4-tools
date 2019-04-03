@@ -1,10 +1,8 @@
 package army
 
-import datatypes.{MilTechModifier, TechGroup}
+import datatypes.MilTechModifier
 
 class Army(var general: General, technology: MilTechModifier, var regiments: Array[Regiment]) {
-
-  val siegeAbility: Double = 0.1 // TODO: Calculate siegeAbility
 
   /** returns artillery bonus */
   def getArtilleryBonus(fortBuildingLevel: Int): Int = {
@@ -16,8 +14,7 @@ class Army(var general: General, technology: MilTechModifier, var regiments: Arr
 
   /** apply attrition damage, make sure it happens before reinforcements */
   def applyAttrition(percentage: Double) {
-    // TODO: does not update value
-    regiments.map(_.strength * (1.0 - percentage))
+    regiments.foreach(_.takeAttrition(percentage))
   }
 
   /** merge two armies, assuming same MilTechLevel */
@@ -27,5 +24,13 @@ class Army(var general: General, technology: MilTechModifier, var regiments: Arr
     this
   }
 
+  /** reinforces regiments */
+  def reinforce(rate: Double): Army = {
+    regiments.foreach(_.reinforce(rate))
+    this
+  }
 
+  override def toString: String = {
+    s"$general with $technology \n ${regiments.toList}"
+  }
 }

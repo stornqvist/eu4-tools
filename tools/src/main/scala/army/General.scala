@@ -11,5 +11,9 @@ class General(var fire: Int, var shock: Int, var maneuver: Int, var siege: Int) 
   def sumOfPips: Int = {
     fire + shock + maneuver + siege
   }
+
+  override def toString: String = {
+    s"General $fire $shock $maneuver $siege"
+  }
 }
 

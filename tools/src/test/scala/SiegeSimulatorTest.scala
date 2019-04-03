@@ -21,7 +21,7 @@ class SiegeSimulatorTest extends FlatSpec {
     Array.fill(24)(new Regiment(0, 1000, GAELIC_FREE_SHOOTER, WESTERN)) ++
     Array.fill(4)(new Regiment(0, 1000, FRENCH_CARACOLLE, WESTERN)) ++
     Array.fill(10)(new Regiment(0, 1000, SMALL_CAST_IRON_BOMBARD, WESTERN)))
-  val simulator = new SiegeSimulator(new Fort(1, 0, 0), army, TECH_13, 0)
+  val simulator = new SiegeSimulator(new Fort(1, 0, 0), army, TECH_13, 0, 0.0)
   println(simulator.siege)
 }
 
